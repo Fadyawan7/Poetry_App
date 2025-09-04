@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:romantic_poetry/app/core/app_colors/app_colors.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+import 'package:romantic_poetry/app/modules/poem_details_screen/controllers/poem_details_screen_controller.dart';
+import 'package:romantic_poetry/app/modules/poem_details_screen/views/poem_details_screen_view.dart';
 import '../controllers/poem_title_screen_controller.dart';
 
 class PoemTitleScreenView extends GetView<PoemTitleScreenController> {
@@ -50,8 +52,8 @@ class PoemTitleScreenView extends GetView<PoemTitleScreenController> {
                     final cat = controller.poems[index];
                     return categoryCard(
                       cat['name'].toString(),
-
                       cat["title"].toString(),
+                      index,
                     );
                   },
                 ),
@@ -63,47 +65,52 @@ class PoemTitleScreenView extends GetView<PoemTitleScreenController> {
     );
   }
 
-  Widget categoryCard(String title, String name) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: InkWell(
-        onTap: () {
-          // Get.to(
-          //   () => CategoryDetailsScreenView(),
-          //   binding: BindingsBuilder(() {
-          //     Get.put(CategoryDetailsScreenController(category: title));
-          //   }),
-          // );
-        },
-        borderRadius: BorderRadius.circular(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'By : ${title}',
-              style: TextStyle(
-                color: AppColors.secondry,
-                fontWeight: FontWeight.bold,
-                fontFamily: GoogleFonts.aBeeZeeTextTheme.toString(),
-                fontSize: 17,
-              ),
+  Widget categoryCard(String title, String name, int index) {
+    return GetBuilder<PoemTitleScreenController>(
+      init: PoemTitleScreenController(category: ''),
+      builder: (obx) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: InkWell(
+            onTap: () {
+              Get.to(
+                PoemDetailsScreenView(
+                  category: title,
+                  poem: obx.poems[index]['poem'].toString(),
+                ),
+              );
+            },
+            borderRadius: BorderRadius.circular(8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'By : ${title}',
+                  style: TextStyle(
+                    color: AppColors.secondry,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: GoogleFonts.aBeeZeeTextTheme.toString(),
+                    fontSize: 17,
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  name,
+                  style: TextStyle(
+                    color: AppColors.secondry,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 16),
-            Text(
-              name,
-              style: TextStyle(
-                color: AppColors.secondry,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:romantic_poetry/app/core/app_colors/app_colors.dart';
+// ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import '../controllers/poem_details_screen_controller.dart';
 
 class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
-  const PoemDetailsScreenView({super.key});
+  final String? category;
+  final String? poem;
+  const PoemDetailsScreenView({super.key, this.category, this.poem});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +23,7 @@ class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Poets",
+            "Poem",
             style: TextStyle(
               color: AppColors.primary,
               fontSize: 24,
@@ -31,29 +34,14 @@ class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 16),
-              //   child: GridView.builder(
-              //     physics: NeverScrollableScrollPhysics(),
-              //     shrinkWrap: true,
-              //     itemCount: controller.poems.length,
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 1,
-              //       mainAxisSpacing: 10,
-              //       crossAxisSpacing: 10,
-              //       childAspectRatio: 10 / 3,
-              //     ),
-              //     itemBuilder: (context, index) {
-              //       final cat = controller.poems[index];
-              //       return categoryCard(
-              //         cat['name'].toString(),
-
-              //         cat["title"].toString(),
-              //       );
-              //     },
-              //   ),
-              // ),
-            
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: categoryCard(
+                  title: category.toString(),
+                  poem: poem.toString(),
+                  context: context,
+                ),
+              ),
             ],
           ),
         ),
@@ -61,46 +49,43 @@ class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
     );
   }
 
-  Widget categoryCard(String title, String name) {
+  Widget categoryCard({
+    required String title,
+    required String poem,
+    BuildContext? context,
+  }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      width: MediaQuery.sizeOf(context!).width,
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 18),
       decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: InkWell(
-        onTap: () {
-          // Get.to(
-          //   () => CategoryDetailsScreenView(),
-          //   binding: BindingsBuilder(() {
-          //     Get.put(CategoryDetailsScreenController(category: title));
-          //   }),
-          // );
-        },
-        borderRadius: BorderRadius.circular(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'By : ${title}',
-              style: TextStyle(
-                color: AppColors.secondry,
-                fontWeight: FontWeight.bold,
-                fontFamily: GoogleFonts.aBeeZeeTextTheme.toString(),
-                fontSize: 17,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColors.secondry,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.aBeeZeeTextTheme.toString(),
+              fontSize: 24,
             ),
-            SizedBox(height: 16),
-            Text(
-              name,
-              style: TextStyle(
-                color: AppColors.secondry,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            poem,
+            softWrap: true,
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: AppColors.secondry,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

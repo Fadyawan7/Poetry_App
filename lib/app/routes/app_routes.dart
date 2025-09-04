@@ -8,6 +8,7 @@ abstract class Routes {
   static const CATEGORY_DETAILS_SCREEN = _Paths.CATEGORY_DETAILS_SCREEN;
   static const POEM_TITLE_SCREEN = _Paths.POEM_TITLE_SCREEN;
   static const POEM_DETAILS_SCREEN = _Paths.POEM_DETAILS_SCREEN;
+  static const FAVOURITE_ITEMS = _Paths.FAVOURITE_ITEMS;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const CATEGORY_DETAILS_SCREEN = '/category-details-screen';
   static const POEM_TITLE_SCREEN = '/poem-title-screen';
   static const POEM_DETAILS_SCREEN = '/poem-details-screen';
+  static const FAVOURITE_ITEMS = '/favourite-items';
 }

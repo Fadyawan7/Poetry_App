@@ -1,17 +1,52 @@
 import 'package:get/get.dart';
+import 'package:romantic_poetry/app/core/db/db_helper.dart';
 
 class CategoryDetailsScreenController extends GetxController {
-  //TODO: Implement CategoryDetailsScreenController
+  final String category;
+  RxList<Map<String, dynamic>> favorites = <Map<String, dynamic>>[].obs;
+  late RxList<bool> isFav;
 
-  final count = 0.obs;
+  CategoryDetailsScreenController({required this.category});
+
+  List<Map<String, String>> get poems => poetryData[category] ?? [];
+
   @override
   void onInit() {
     super.onInit();
+    isFav = List.generate(poems.length, (_) => false).obs;
+    loadFavorites();
   }
 
-  final String category;
+  void loadFavorites() async {
+    final dbFavorites = await DBHelper.getFavorites();
+    favorites.assignAll(dbFavorites);
 
-  CategoryDetailsScreenController({required this.category});
+    // update isFav
+    for (int i = 0; i < poems.length; i++) {
+      isFav[i] = favorites.any((f) => f['content'] == poems[i]['content']);
+    }
+  }
+
+  void clearFavorites() {
+    favorites.clear();
+    for (int i = 0; i < isFav.length; i++) {
+      isFav[i] = false;
+    }
+    DBHelper.removeAllFavorites(); // async DB deletion
+  }
+
+  void toggleFavorite(int index) async {
+    final poem = poems[index];
+    if (isFav[index]) {
+      await DBHelper.removeFavorite(poem['content']!);
+      favorites.removeWhere((f) => f['content'] == poem['content']);
+      isFav[index] = false;
+    } else {
+      await DBHelper.addFavorite(poem);
+      favorites.add({'title': poem['title'], 'content': poem['content']});
+      isFav[index] = true;
+    }
+  }
 
   final Map<String, List<Map<String, String>>> poetryData = {
     "Love": [
@@ -19,6 +54,16 @@ class CategoryDetailsScreenController extends GetxController {
         "title": "فیض احمد فیض",
         "content":
             "مجھ سے پہلی سی محبت مرے محبوب نہ مانگ\nمیں نے سمجھا تھا کہ تُو ہے تو درخشاں ہے حیات",
+      },
+      {
+        "title": " عشق کی حقیقت",
+        "content":
+            "محبت کے سفر میں دل جلانا پڑتا ہے\nوفاؤں کی قسمیں یاد دِلانا پڑتا ہے\nکوئی آسان نہیں ہوتا یہ عشق کا رستہ\nیہاں آنسوؤں سے چراغ جلانا پڑتا ہے",
+      },
+      {
+        "title": "غالب کی تڑپ",
+        "content":
+            "ہزاروں خواہشیں ایسی کہ ہر خواہش پہ دم نکلے\nبہت نکلے میرے ارمان لیکن پھر بھی کم نکلے",
       },
       {
         "title": "غالب کا عشق",
@@ -44,16 +89,7 @@ class CategoryDetailsScreenController extends GetxController {
         "content":
             "سنا ہے سناٹے کو آواز دینا عشق ہے\nخاموش دل میں سرگوشی کرنا عشق ہے",
       },
-      {
-        "title": " عشق کی حقیقت",
-        "content":
-            "محبت کے سفر میں دل جلانا پڑتا ہے\nوفاؤں کی قسمیں یاد دِلانا پڑتا ہے\nکوئی آسان نہیں ہوتا یہ عشق کا رستہ\nیہاں آنسوؤں سے چراغ جلانا پڑتا ہے",
-      },
-      {
-        "title": "غالب کی تڑپ",
-        "content":
-            "ہزاروں خواہشیں ایسی کہ ہر خواہش پہ دم نکلے\nبہت نکلے میرے ارمان لیکن پھر بھی کم نکلے",
-      },
+
       {
         "title": "اقبال کی دعا",
         "content":
@@ -161,7 +197,6 @@ class CategoryDetailsScreenController extends GetxController {
             "یہ جو تمہاری آنکھوں میں نمی سی ہے\nمحبت کے سفر کی کمی سی ہے",
       },
     ],
-
     "Sad": [
       {
         "title": "غمِ تنہائی",
@@ -1893,6 +1928,4 @@ class CategoryDetailsScreenController extends GetxController {
       },
     ],
   };
-
-  List<Map<String, String>> get poems => poetryData[category] ?? [];
 }

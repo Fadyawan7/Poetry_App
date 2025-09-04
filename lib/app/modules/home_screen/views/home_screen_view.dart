@@ -5,6 +5,7 @@ import 'package:romantic_poetry/app/core/app_colors/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:romantic_poetry/app/modules/category_details_screen/controllers/category_details_screen_controller.dart';
 import 'package:romantic_poetry/app/modules/category_details_screen/views/category_details_screen_view.dart';
+import 'package:romantic_poetry/app/modules/favourite_items/views/favourite_items_view.dart';
 import 'package:romantic_poetry/app/modules/poem_title_screen/controllers/poem_title_screen_controller.dart';
 import 'package:romantic_poetry/app/modules/poem_title_screen/views/poem_title_screen_view.dart';
 
@@ -33,7 +34,9 @@ class HomeScreenView extends GetView<HomeScreenController> {
         actions: [
           IconButton(
             icon: Icon(Icons.favorite, color: AppColors.primary),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(FavouriteItemsView());
+            },
           ),
         ],
       ),

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/category_details_screen/bindings/category_details_screen_binding.dart';
 import '../modules/category_details_screen/views/category_details_screen_view.dart';
+import '../modules/favourite_items/bindings/favourite_items_binding.dart';
+import '../modules/favourite_items/views/favourite_items_view.dart';
 import '../modules/home_screen/bindings/home_screen_binding.dart';
 import '../modules/home_screen/views/home_screen_view.dart';
 import '../modules/poem_details_screen/bindings/poem_details_screen_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.POEM_DETAILS_SCREEN,
       page: () => const PoemDetailsScreenView(),
       binding: PoemDetailsScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.FAVOURITE_ITEMS,
+      page: () => const FavouriteItemsView(),
+      binding: FavouriteItemsBinding(),
     ),
   ];
 }
