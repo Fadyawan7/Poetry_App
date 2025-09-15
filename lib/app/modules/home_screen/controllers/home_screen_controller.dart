@@ -20,11 +20,14 @@ class HomeScreenController extends GetxController {
   void onClose() {
     super.onClose();
   }
+  
 
   final featuredPoems = [
-    "images/photo3.webp",
-    "images/photo1.webp",
-    "images/photo2.webp",
+    "images/silder3.png",
+    "images/silder1.png",
+    "images/silder2.png",
+    "images/silder4.png",
+    "images/silder5.png",
   ];
 
   final categories = [

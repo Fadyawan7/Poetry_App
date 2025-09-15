@@ -1,10 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:romantic_poetry/app/core/db/db_helper.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CategoryDetailsScreenController extends GetxController {
   final String category;
   RxList<Map<String, dynamic>> favorites = <Map<String, dynamic>>[].obs;
   late RxList<bool> isFav;
+  BannerAd? bannerAd;
+  var isAdLoaded = false.obs;
+  RewardedAd? rewardedAd;
+  var isRewardedAdReady = false.obs;
 
   CategoryDetailsScreenController({required this.category});
 
@@ -13,8 +20,101 @@ class CategoryDetailsScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // _loadBannerAd();
+    // _loadRewardedAd();
+
     isFav = List.generate(poems.length, (_) => false).obs;
     loadFavorites();
+  }
+
+  // void _loadBannerAd() {
+  //   bannerAd = BannerAd(
+  //     adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: BannerAdListener(
+  //       onAdLoaded: (_) {
+  //         isAdLoaded.value = true;
+  //       },
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //         print("BannerAd failed to load: ${error.message}");
+  //       },
+  //     ),
+  //   )..load();
+  // }
+
+  // // ✅ Rewarded
+  // void _loadRewardedAd() {
+  //   RewardedAd.load(
+  //     adUnitId: 'ca-app-pub-3940256099942544/5224354917', // Test rewarded ad
+  //     request: const AdRequest(),
+  //     rewardedAdLoadCallback: RewardedAdLoadCallback(
+  //       onAdLoaded: (ad) {
+  //         rewardedAd = ad;
+  //         isRewardedAdReady.value = true;
+
+  //         rewardedAd?.fullScreenContentCallback = FullScreenContentCallback(
+  //           onAdDismissedFullScreenContent: (ad) {
+  //             ad.dispose();
+  //             isRewardedAdReady.value = false;
+  //             _loadRewardedAd(); // preload next ad
+  //           },
+  //           onAdFailedToShowFullScreenContent: (ad, error) {
+  //             ad.dispose();
+  //             isRewardedAdReady.value = false;
+  //             print("RewardedAd failed to show: $error");
+  //             _loadRewardedAd();
+  //           },
+  //         );
+  //       },
+  //       onAdFailedToLoad: (error) {
+  //         print("RewardedAd failed to load: $error");
+  //         isRewardedAdReady.value = false;
+  //       },
+  //     ),
+  //   );
+  // }
+
+  // void showRewardedAd(String poemContent) {
+  //   if (rewardedAd != null) {
+  //     rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+  //       onAdDismissedFullScreenContent: (ad) async {
+  //         ad.dispose();
+  //         isRewardedAdReady.value = false;
+  //         _loadRewardedAd();
+
+  //         // ignore: deprecated_member_use
+  //         await Share.share(poemContent);
+  //       },
+  //       onAdFailedToShowFullScreenContent: (ad, error) {
+  //         ad.dispose();
+  //         isRewardedAdReady.value = false;
+  //         if (kDebugMode) {
+  //           print("RewardedAd failed to show: $error");
+  //         }
+  //         _loadRewardedAd();
+  //       },
+  //     );
+
+  //     rewardedAd!.show(
+  //       onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+  //         print("User earned reward: ${reward.amount} ${reward.type}");
+  //       },
+  //     );
+  //   } else {
+  //     if (kDebugMode) {
+  //       print("Rewarded ad not ready yet.");
+  //     }
+  //   }
+  // }
+
+  @override
+  void onClose() {
+    // bannerAd?.dispose();
+    // rewardedAd?.dispose();
+
+    super.onClose();
   }
 
   void loadFavorites() async {
@@ -1928,4 +2028,6 @@ class CategoryDetailsScreenController extends GetxController {
       },
     ],
   };
+
+  //.................................... Banner Adds,,,,,,,,,,,,,,,,,,
 }

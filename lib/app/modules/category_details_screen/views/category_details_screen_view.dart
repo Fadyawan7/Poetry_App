@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:romantic_poetry/app/core/app_colors/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
@@ -78,9 +79,19 @@ class CategoryDetailsScreenView
                               poem: poem["content"].toString(),
                               onFavourite: () =>
                                   controller.toggleFavorite(index),
-                              onShare: () async =>
-                                  // ignore: deprecated_member_use
-                                  await Share.share(poem["content"].toString()),
+                              onShare: () async {
+                                // ignore: deprecated_member_use
+                                await Share.share(poem["content"].toString());
+                                // if (controller.isRewardedAdReady.value) {
+                                //   controller.showRewardedAd(
+                                //     poem["content"].toString(),
+                                //   );
+                                // } else {
+                                //   print("Rewarded ad not ready yet");
+                                // }
+                              },
+
+                              // ignore: deprecated_member_use
                               isFav: controller.isFav[index].obs,
                             ),
                           ],
@@ -95,6 +106,15 @@ class CategoryDetailsScreenView
           },
         ),
       ),
+
+      bottomNavigationBar: Obx(() {
+        if (!controller.isAdLoaded.value) return SizedBox();
+        return Container(
+          color: Colors.transparent,
+          height: controller.bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: controller.bannerAd!),
+        );
+      }),
     );
   }
 }

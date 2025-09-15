@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:romantic_poetry/app/core/app_colors/app_colors.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,9 @@ import '../controllers/poem_details_screen_controller.dart';
 class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
   final String? category;
   final String? poem;
-  const PoemDetailsScreenView({super.key, this.category, this.poem});
+   PoemDetailsScreenView({super.key, this.category, this.poem});
+  @override
+  final controller =     Get.put(PoemDetailsScreenController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,6 +48,16 @@ class PoemDetailsScreenView extends GetView<PoemDetailsScreenController> {
             ],
           ),
         ),
+      //   bottomNavigationBar: Obx(() {
+      //   if (!controller.isAdLoaded.value) {
+      //     return SizedBox();
+      //   }
+      //   return Container(
+      //     color: Colors.transparent,
+      //     height: controller.bannerAd!.size.height.toDouble(),
+      //     child: AdWidget(ad: controller.bannerAd!),
+      //   );
+      // }),
       ),
     );
   }

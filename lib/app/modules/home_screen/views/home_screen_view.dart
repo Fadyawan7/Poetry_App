@@ -44,29 +44,33 @@ class HomeScreenView extends GetView<HomeScreenController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 170,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 4),
-                  enlargeCenterPage: false,
-                  viewportFraction: 1.0,
-                  scrollDirection: Axis.horizontal,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 170,
+
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 4),
+                    enlargeCenterPage: false,
+                    viewportFraction: 1.0,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                  items: controller.featuredPoems.map((poem) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          child: Image.asset(
+                            poem.toString(),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
-                items: controller.featuredPoems.map((poem) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          poem.toString(),
-                          fit: BoxFit.fitWidth,
-                          width: double.infinity,
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
               ),
 
               SizedBox(height: 16),

@@ -1,6 +1,6 @@
 {
-    "name": "romantic_poetry",
-    "short_name": "romantic_poetry",
+    "name": "world_poetry",
+    "short_name": "world_poetry",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

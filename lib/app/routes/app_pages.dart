@@ -43,7 +43,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.POEM_DETAILS_SCREEN,
-      page: () => const PoemDetailsScreenView(),
+      page: () =>  PoemDetailsScreenView(),
       binding: PoemDetailsScreenBinding(),
     ),
     GetPage(

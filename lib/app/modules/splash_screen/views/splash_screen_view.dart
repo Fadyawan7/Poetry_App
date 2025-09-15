@@ -9,14 +9,14 @@ class SplashScreenView extends GetView<SplashScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: GetBuilder<SplashScreenController>(
-        init: SplashScreenController(),
-        builder: (context) {
-          return Image.asset('images/splashimage.webp');
-        },
-      ),
+    return GetBuilder<SplashScreenController>(
+      init: SplashScreenController(),
+      builder: (ob) {
+        return Image.asset(
+          'images/splashimage.webp',
+          height: MediaQuery.sizeOf(context).height,
+        );
+      },
     );
   }
 }
